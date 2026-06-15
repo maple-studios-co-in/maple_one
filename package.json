@@ -1,10 +1,15 @@
 {
   "name": "maple-suite",
   "private": true,
-  "workspaces": ["packages/*", "apps/*"],
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "db:generate": "npm run -w @maple/db generate"
   },
-  "overrides": { "postcss": "^8.5.10" }
+  "overrides": {
+    "postcss": "^8.5.10"
+  }
 }

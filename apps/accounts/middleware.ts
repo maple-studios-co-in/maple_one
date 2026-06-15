@@ -7,7 +7,7 @@ export async function middleware(req: NextRequest) {
   const user = token ? await verifySession(token) : null;
   if (!user) {
     if (pathname.startsWith("/api/")) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-    const url = req.nextUrl.clone(); url.pathname = "/login"; url.searchParams.set("next", req.nextUrl.origin + pathname + search);
+    const url = req.nextUrl.clone(); url.pathname = "/login"; url.searchParams.set("next", (req.headers.get("x-forwarded-host") ? `https://${req.headers.get("x-forwarded-host")}` : req.nextUrl.origin) + pathname + search);
     return NextResponse.redirect(url);
   }
   return NextResponse.next();

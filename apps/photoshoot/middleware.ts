@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
   if (!user) {
     if (pathname.startsWith("/api/")) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     const base = process.env.LOGIN_URL || (process.env.NODE_ENV !== "production" ? `${req.nextUrl.origin}/login` : "https://accounts.maplefurnishers.com/login");
-    const url = new URL(base); url.searchParams.set("next", req.nextUrl.origin + pathname + search);
+    const url = new URL(base); url.searchParams.set("next", (req.headers.get("x-forwarded-host") ? `https://${req.headers.get("x-forwarded-host")}` : req.nextUrl.origin) + pathname + search);
     return NextResponse.redirect(url);
   }
   if (!canAccess(user.role, `/${TOOL}`)) {
