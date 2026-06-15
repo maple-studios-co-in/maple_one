@@ -29,8 +29,18 @@ npm install                      # links workspaces, generates Prisma client
 npm run -w @maple/app-leads dev  # run a single app
 ```
 
-## Deploy
-Each app builds and deploys independently (`npm run -w @maple/app-<tool> build`). Set the
-shared env on every app: `AUTH_SECRET`, `COOKIE_DOMAIN=.maplefurnishers.com`,
-`SSO_DOMAIN=.maplefurnishers.com`, `LOGIN_URL=https://accounts.maplefurnishers.com/login`,
-`DATABASE_URL`, and (for catalog/photoshoot) `CATALOG_STORAGE`.
+## Deploy (Docker Compose)
+
+One image builds all apps; one container per app, fronted by Caddy (auto-HTTPS),
+with Postgres + a shared file volume.
+
+```bash
+cp .env.example .env       # set AUTH_SECRET (openssl rand -hex 32), passwords
+docker compose up -d --build
+# `migrate` service runs `prisma db push` + seeds the first admin automatically
+```
+
+DNS: point `*.maplefurnishers.com` (and the apex) at the server. Each tool is then live at
+`<tool>.maplefurnishers.com`; sign in once at `accounts.maplefurnishers.com`.
+
+To run a single app in dev: `npm run -w @maple/app-<tool> dev`.

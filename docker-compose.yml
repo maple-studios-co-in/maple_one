@@ -1,0 +1,148 @@
+# Maple Suite — Postgres + Caddy + one container per app (shared image).
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-maple}
+      POSTGRES_DB: mapletools
+    volumes: [pgdata:/var/lib/postgresql/data]
+    restart: unless-stopped
+
+  migrate:
+    image: maple-suite:latest
+    build: .
+    env_file: .env
+    depends_on: [postgres]
+    command: sh -c "npm run -w @maple/db push && npm run -w @maple/db seed || true"
+    restart: "no"
+
+  accounts:
+    image: maple-suite:latest
+    build: .
+    env_file: .env
+    environment: { APP: accounts }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  leads:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: leads }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  crm:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: crm }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  quotations:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: quotations }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  orders:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: orders }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  challans:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: challans }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  invoices:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: invoices }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  payments:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: payments }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  catalog:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: catalog }
+    depends_on: [postgres, migrate]
+    volumes: [catalog:/data/catalog]
+    restart: unless-stopped
+
+  photoshoot:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: photoshoot }
+    depends_on: [postgres, migrate]
+    volumes: [catalog:/data/catalog]
+    restart: unless-stopped
+
+  inventory:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: inventory }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  purchase-orders:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: purchase-orders }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  finance:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: finance }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  expenses:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: expenses }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  hr:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: hr }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  users:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: users }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [accounts]
+    restart: unless-stopped
+
+volumes:
+  pgdata: {}
+  catalog: {}
+  caddy_data: {}
+  caddy_config: {}

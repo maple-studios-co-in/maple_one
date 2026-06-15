@@ -1,0 +1,67 @@
+{
+	email admin@maplefurnishers.com
+}
+
+accounts.maplefurnishers.com {
+	reverse_proxy accounts:3000
+}
+
+leads.maplefurnishers.com {
+	reverse_proxy leads:3000
+}
+
+crm.maplefurnishers.com {
+	reverse_proxy crm:3000
+}
+
+quotations.maplefurnishers.com {
+	reverse_proxy quotations:3000
+}
+
+orders.maplefurnishers.com {
+	reverse_proxy orders:3000
+}
+
+challans.maplefurnishers.com {
+	reverse_proxy challans:3000
+}
+
+invoices.maplefurnishers.com {
+	reverse_proxy invoices:3000
+}
+
+payments.maplefurnishers.com {
+	reverse_proxy payments:3000
+}
+
+catalog.maplefurnishers.com {
+	reverse_proxy catalog:3000
+}
+
+photoshoot.maplefurnishers.com {
+	reverse_proxy photoshoot:3000
+}
+
+inventory.maplefurnishers.com {
+	reverse_proxy inventory:3000
+}
+
+purchase-orders.maplefurnishers.com {
+	reverse_proxy purchase-orders:3000
+}
+
+finance.maplefurnishers.com {
+	reverse_proxy finance:3000
+}
+
+expenses.maplefurnishers.com {
+	reverse_proxy expenses:3000
+}
+
+hr.maplefurnishers.com {
+	reverse_proxy hr:3000
+}
+
+users.maplefurnishers.com {
+	reverse_proxy users:3000
+}
