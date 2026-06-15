@@ -65,3 +65,7 @@ hr.maplefurnishers.com {
 users.maplefurnishers.com {
 	reverse_proxy 127.0.0.1:3016
 }
+
+maplefurnishers.com, www.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:5173
+}
