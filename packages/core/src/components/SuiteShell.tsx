@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { canAccess, ROLE_LABEL } from "../lib/rbac";
-import { TOOLS, toolUrl, accountsUrl } from "../lib/nav";
+import { TOOLS, toolUrl, adminUrl } from "../lib/nav";
 import type { SessionUser } from "../lib/session";
 import { cn } from "../lib/cn";
 import { Avatar } from "./ui/avatar";
@@ -9,11 +9,11 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 
 export function SuiteShell({ user, current, children }: { user: SessionUser; current: string; children: React.ReactNode }) {
   const items = TOOLS.filter((t) => canAccess(user.role, `/${t.tool}`));
-  const logout = async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.href = accountsUrl("/login"); };
+  const logout = async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.href = adminUrl("/login"); };
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <aside className="flex w-60 shrink-0 flex-col border-r border-border bg-sidebar">
-        <a href={accountsUrl()} className="px-5 py-5">
+        <a href={adminUrl()} className="px-5 py-5">
           <div className="font-serif text-2xl text-primary">Maple<span className="text-foreground">Tools</span></div>
           <div className="mt-0.5 text-[11px] text-muted-foreground">Maple Furnishers · Kirti Nagar</div>
         </a>
@@ -44,7 +44,7 @@ export function SuiteShell({ user, current, children }: { user: SessionUser; cur
             <DropdownMenuContent>
               <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={() => { window.location.href = accountsUrl("/account"); }}>Account</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => { window.location.href = adminUrl("/account"); }}>Account</DropdownMenuItem>
               <DropdownMenuItem onSelect={logout} className="text-destructive">Sign out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -1,4 +1,4 @@
-# Maple Suite — Postgres + Caddy + one container per app (shared image).
+# Maple ecosystem — Postgres + Caddy + web (apex) + admin + tools (shared image).
 services:
   postgres:
     image: postgres:16
@@ -16,11 +16,16 @@ services:
     command: sh -c "npm run -w @maple/db push && npm run -w @maple/db seed || true"
     restart: "no"
 
-  accounts:
+  web:
     image: maple-suite:latest
-    build: .
+    environment: { APP: web }
+    command: sh -c "npm run -w @maple/app-web preview -- --port 3000 --host 0.0.0.0"
+    restart: unless-stopped
+
+  admin:
+    image: maple-suite:latest
     env_file: .env
-    environment: { APP: accounts }
+    environment: { APP: admin }
     depends_on: [postgres, migrate]
     restart: unless-stopped
 
@@ -138,7 +143,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-    depends_on: [accounts]
+    depends_on: [web, admin]
     restart: unless-stopped
 
 volumes:

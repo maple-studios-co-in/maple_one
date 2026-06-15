@@ -5,3 +5,8 @@ node_modules
 .catalog-store
 *.tsbuildinfo
 next-env.d.ts
+
+apps/*/dist
+.turbo
+.devlogs
+*.timestamp-*

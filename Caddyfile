@@ -2,8 +2,12 @@
 	email admin@maplefurnishers.com
 }
 
-accounts.maplefurnishers.com {
-	reverse_proxy accounts:3000
+maplefurnishers.com, www.maplefurnishers.com {
+	reverse_proxy web:3000
+}
+
+admin.maplefurnishers.com {
+	reverse_proxy admin:3000
 }
 
 leads.maplefurnishers.com {

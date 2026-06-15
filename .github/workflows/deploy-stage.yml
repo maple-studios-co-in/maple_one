@@ -1,0 +1,23 @@
+name: Deploy stage
+on:
+  push:
+    branches: [develop]
+concurrency: stage
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: stage            # set secrets under GitHub > Environments > stage
+    steps:
+      - name: Deploy over SSH (build on the box)
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd ~/maple
+            git pull --ff-only
+            docker compose up -d --build
+            docker image prune -f
+# NOTE: for a small box, switch to building images in CI + pushing to GHCR, then
+# 'docker compose pull && up' here, to avoid building 16 apps on the server.

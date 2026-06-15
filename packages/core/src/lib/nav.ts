@@ -20,6 +20,6 @@ export const TOOLS: { tool: string; label: string }[] = [
 export function toolUrl(tool: string): string {
   return `https://${tool}${SUITE_DOMAIN}`;
 }
-export function accountsUrl(path = ""): string {
-  return `https://accounts${SUITE_DOMAIN}${path}`;
+export function adminUrl(path = ""): string {
+  return `https://admin${SUITE_DOMAIN}${path}`;
 }

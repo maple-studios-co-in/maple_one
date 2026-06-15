@@ -4,7 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { redirect } from "next/navigation";
 import { getSession } from "@maple/core/lib/auth";
-import { accountsUrl } from "@maple/core/lib/nav";
+import { adminUrl } from "@maple/core/lib/nav";
 import { SuiteShell } from "@maple/core/components/SuiteShell";
 
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"] });
@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Challans · MapleTools" };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const user = await getSession();
-  if (!user) redirect(accountsUrl("/login"));
+  if (!user) redirect(adminUrl("/login"));
   return (
     <html lang="en" className={`${outfit.variable} ${instrument.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full">

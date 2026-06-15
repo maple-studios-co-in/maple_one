@@ -1,4 +1,5 @@
-accounts         -> :3001
+web              -> :5173 (vite)
+admin            -> :3001 (or web on :5173 via vite)
 leads            -> :3002
 crm              -> :3003
 quotations       -> :3004

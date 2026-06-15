@@ -6,10 +6,16 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "db:generate": "npm run -w @maple/db generate"
+    "build": "turbo run build",
+    "db:generate": "npm run -w @maple/db generate",
+    "lint": "turbo run lint",
+    "dev": "turbo run dev"
   },
   "overrides": {
     "postcss": "^8.5.10"
-  }
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  },
+  "packageManager": "npm@10.9.8"
 }

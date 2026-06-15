@@ -10,13 +10,13 @@ export async function middleware(req: NextRequest) {
   const user = token ? await verifySession(token) : null;
   if (!user) {
     if (pathname.startsWith("/api/")) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-    const base = process.env.LOGIN_URL || (process.env.NODE_ENV !== "production" ? `${req.nextUrl.origin}/login` : "https://accounts.maplefurnishers.com/login");
+    const base = process.env.LOGIN_URL || (process.env.NODE_ENV !== "production" ? `${req.nextUrl.origin}/login` : "https://admin.maplefurnishers.com/login");
     const url = new URL(base); url.searchParams.set("next", (req.headers.get("x-forwarded-host") ? `https://${req.headers.get("x-forwarded-host")}` : req.nextUrl.origin) + pathname + search);
     return NextResponse.redirect(url);
   }
   if (!canAccess(user.role, `/${TOOL}`)) {
     if (pathname.startsWith("/api/")) return NextResponse.json({ error: "forbidden" }, { status: 403 });
-    return NextResponse.redirect(new URL(process.env.LOGIN_URL || "https://accounts.maplefurnishers.com", req.url));
+    return NextResponse.redirect(new URL(process.env.LOGIN_URL || "https://admin.maplefurnishers.com", req.url));
   }
   return NextResponse.next();
 }
