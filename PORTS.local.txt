@@ -1,0 +1,16 @@
+accounts         -> :3001
+leads            -> :3002
+crm              -> :3003
+quotations       -> :3004
+orders           -> :3005
+challans         -> :3006
+invoices         -> :3007
+payments         -> :3008
+catalog          -> :3009
+photoshoot       -> :3010
+inventory        -> :3011
+purchase-orders  -> :3012
+finance          -> :3013
+expenses         -> :3014
+hr               -> :3015
+users            -> :3016

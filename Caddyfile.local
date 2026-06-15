@@ -1,0 +1,67 @@
+{
+	local_certs
+}
+
+accounts.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3001
+}
+
+leads.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3002
+}
+
+crm.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3003
+}
+
+quotations.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3004
+}
+
+orders.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3005
+}
+
+challans.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3006
+}
+
+invoices.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3007
+}
+
+payments.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3008
+}
+
+catalog.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3009
+}
+
+photoshoot.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3010
+}
+
+inventory.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3011
+}
+
+purchase-orders.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3012
+}
+
+finance.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3013
+}
+
+expenses.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3014
+}
+
+hr.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3015
+}
+
+users.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3016
+}
