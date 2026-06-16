@@ -143,6 +143,11 @@ services:
     depends_on: [postgres, migrate]
     restart: unless-stopped
 
+  docs:
+    image: maple-suite:latest
+    environment: { APP: docs }
+    restart: unless-stopped
+
   flipt:
     image: flipt/flipt:latest
     environment:

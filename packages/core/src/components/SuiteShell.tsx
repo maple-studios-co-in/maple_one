@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { canAccessTool, ROLE_LABEL } from "../lib/rbac";
-import { TOOLS, toolUrl, adminUrl } from "../lib/nav";
+import { TOOLS, toolUrl, adminUrl, SUITE_DOMAIN } from "../lib/nav";
 import type { SessionUser } from "../lib/session";
 import { cn } from "../lib/cn";
 import { Avatar } from "./ui/avatar";
@@ -28,6 +28,7 @@ export function SuiteShell({ user, current, children }: { user: SessionUser; cur
             );
           })}
         </nav>
+        <a href={`https://docs${SUITE_DOMAIN}`} className="mx-3 mb-1 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground">Help &amp; docs</a>
         <div className="px-5 py-4 text-[10px] text-muted-foreground/70">{ROLE_LABEL[user.role] ?? user.role}</div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">

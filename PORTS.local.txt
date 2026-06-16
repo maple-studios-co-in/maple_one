@@ -16,3 +16,4 @@ expenses         -> :3014
 hr               -> :3015
 users            -> :3016
 tasks            -> :3017
+docs             -> :3018
