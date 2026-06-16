@@ -1,12 +1,12 @@
 import { getSession } from "@maple/core/lib/auth";
-import { canAccess } from "@maple/core/lib/rbac";
+import { canAccessTool } from "@maple/core/lib/rbac";
 import { TOOLS, toolUrl } from "@maple/core/lib/nav";
 import { Card } from "@maple/core/ui/card";
 
 export default async function Launcher() {
   const user = await getSession();
   if (!user) return null;
-  const tools = TOOLS.filter((t) => canAccess(user.role, `/${t.tool}`));
+  const tools = TOOLS.filter((t) => canAccessTool(user.perms, t.tool, user.role));
   return (
     <div className="mx-auto max-w-5xl p-6 md:p-10">
       <div className="mb-8 flex items-center justify-between">

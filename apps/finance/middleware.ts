@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { verifySession, COOKIE } from "@maple/core/lib/session";
-import { canAccess } from "@maple/core/lib/rbac";
+import { canAccessTool } from "@maple/core/lib/rbac";
 
 const TOOL = "finance";
 
@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
     const url = new URL(base); url.searchParams.set("next", (req.headers.get("x-forwarded-host") ? `https://${req.headers.get("x-forwarded-host")}` : req.nextUrl.origin) + pathname + search);
     return NextResponse.redirect(url);
   }
-  if (!canAccess(user.role, `/${TOOL}`)) {
+  if (!canAccessTool(user.perms, TOOL, user.role)) {
     if (pathname.startsWith("/api/")) return NextResponse.json({ error: "forbidden" }, { status: 403 });
     return NextResponse.redirect(new URL(process.env.LOGIN_URL || "https://admin.maplefurnishers.com", req.url));
   }

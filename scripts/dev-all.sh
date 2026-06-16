@@ -3,7 +3,7 @@
 cd "$(dirname "$0")/.."
 mkdir -p .devlogs
 echo "starting web (marketing) on :5173"
-npm run -w @maple/app-web dev -- --port 5173 > .devlogs/web.log 2>&1 &
+npm run -w @maple/app-web dev -- --port 5173 --host 127.0.0.1 > .devlogs/web.log 2>&1 &
 apps=(admin leads crm quotations orders challans invoices payments catalog photoshoot inventory purchase-orders finance expenses hr users)
 port=3001
 for app in "${apps[@]}"; do

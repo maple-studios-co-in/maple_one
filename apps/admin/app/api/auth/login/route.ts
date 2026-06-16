@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@maple/core/lib/prisma";
 import { verifyPassword } from "@maple/core/lib/auth";
 import { signSession, COOKIE, sessionCookieOptions, SESSION_MAX_AGE } from "@maple/core/lib/session";
+import { permsForRole } from "@maple/core/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,8 @@ export async function POST(req: Request) {
     if (!user || !user.active || !(await verifyPassword(body.password || "", user.passwordHash))) {
       return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
     }
-    const token = await signSession({ id: user.id, name: user.name, email: user.email, role: user.role });
+    const perms = await permsForRole(user.role);
+    const token = await signSession({ id: user.id, name: user.name, email: user.email, role: user.role, perms });
     const res = NextResponse.json({ ok: true, role: user.role });
     res.cookies.set(COOKIE, token, sessionCookieOptions(SESSION_MAX_AGE));
     return res;

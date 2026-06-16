@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { canAccess, ROLE_LABEL } from "../lib/rbac";
+import { canAccessTool, ROLE_LABEL } from "../lib/rbac";
 import { TOOLS, toolUrl, adminUrl } from "../lib/nav";
 import type { SessionUser } from "../lib/session";
 import { cn } from "../lib/cn";
@@ -8,7 +8,7 @@ import { Avatar } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
 
 export function SuiteShell({ user, current, children }: { user: SessionUser; current: string; children: React.ReactNode }) {
-  const items = TOOLS.filter((t) => canAccess(user.role, `/${t.tool}`));
+  const items = TOOLS.filter((t) => canAccessTool(user.perms, t.tool, user.role));
   const logout = async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.href = adminUrl("/login"); };
   return (
     <div className="flex h-screen overflow-hidden bg-background">
