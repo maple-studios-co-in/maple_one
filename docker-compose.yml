@@ -136,6 +136,13 @@ services:
     depends_on: [postgres, migrate]
     restart: unless-stopped
 
+  flipt:
+    image: flipt/flipt:latest
+    environment:
+      FLIPT_META_TELEMETRY_ENABLED: "false"
+    volumes: [flipt:/var/opt/flipt]
+    restart: unless-stopped
+
   caddy:
     image: caddy:2
     ports: ["80:80", "443:443"]
@@ -148,6 +155,7 @@ services:
 
 volumes:
   pgdata: {}
+  flipt: {}
   catalog: {}
   caddy_data: {}
   caddy_config: {}

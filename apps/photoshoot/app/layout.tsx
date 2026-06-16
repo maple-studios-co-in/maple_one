@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import { getSession } from "@maple/core/lib/auth";
 import { adminUrl } from "@maple/core/lib/nav";
 import { SuiteShell } from "@maple/core/components/SuiteShell";
+import { ToolDisabled } from "@maple/core/components/ToolDisabled";
+import { isEnabled } from "@maple/core/lib/flags";
 
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"] });
 const instrument = Instrument_Serif({ variable: "--font-instrument", weight: "400", subsets: ["latin"] });
@@ -14,10 +16,11 @@ export const metadata: Metadata = { title: "Photoshoot · MapleTools" };
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const user = await getSession();
   if (!user) redirect(adminUrl("/login"));
+  const toolOn = await isEnabled(`tool.photoshoot`);
   return (
     <html lang="en" className={`${outfit.variable} ${instrument.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full">
-        <SuiteShell user={user} current="photoshoot">{children}</SuiteShell>
+        {toolOn ? (<SuiteShell user={user} current="photoshoot">{children}</SuiteShell>) : (<ToolDisabled label="Photoshoot" />)}
         <Toaster position="top-right" richColors />
       </body>
     </html>
