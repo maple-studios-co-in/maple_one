@@ -15,3 +15,4 @@ finance          -> :3013
 expenses         -> :3014
 hr               -> :3015
 users            -> :3016
+tasks            -> :3017

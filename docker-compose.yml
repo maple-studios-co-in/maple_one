@@ -136,6 +136,13 @@ services:
     depends_on: [postgres, migrate]
     restart: unless-stopped
 
+  tasks:
+    image: maple-suite:latest
+    env_file: .env
+    environment: { APP: tasks }
+    depends_on: [postgres, migrate]
+    restart: unless-stopped
+
   flipt:
     image: flipt/flipt:latest
     environment:

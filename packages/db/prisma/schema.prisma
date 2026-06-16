@@ -230,6 +230,19 @@ model Role {
   updatedAt   DateTime @updatedAt
 }
 
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  status      String    @default("todo")     // todo | in_progress | blocked | done
+  priority    String    @default("medium")   // low | medium | high
+  assigneeId  String?
+  assignee    User?     @relation(fields: [assigneeId], references: [id])
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 model User {
   id           String   @id @default(cuid())
   name         String
@@ -237,5 +250,6 @@ model User {
   passwordHash String
   role         String   @default("sales") // admin | sales | accounts | hr
   active       Boolean  @default(true)
+  tasks        Task[]
   createdAt    DateTime @default(now())
 }

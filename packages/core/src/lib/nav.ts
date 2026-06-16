@@ -3,6 +3,7 @@ export const SUITE_DOMAIN = process.env.NEXT_PUBLIC_SUITE_DOMAIN || ".maplefurni
 export const TOOLS: { tool: string; label: string }[] = [
   { tool: "leads", label: "Leads" },
   { tool: "crm", label: "Clients" },
+  { tool: "tasks", label: "Tasks" },
   { tool: "quotations", label: "Quotations" },
   { tool: "orders", label: "Orders" },
   { tool: "challans", label: "Challans" },

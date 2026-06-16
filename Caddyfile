@@ -71,6 +71,10 @@ users.maplefurnishers.com {
 }
 
 # Feature-flag console (Flipt). PROTECT THIS — add basic_auth or restrict by IP.
+tasks.maplefurnishers.com {
+	reverse_proxy tasks:3000
+}
+
 flags.maplefurnishers.com {
 	reverse_proxy flipt:8080
 }

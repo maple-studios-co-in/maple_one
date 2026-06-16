@@ -70,6 +70,10 @@ users.maplefurnishers.com {
 	reverse_proxy 127.0.0.1:3016
 }
 
+tasks.maplefurnishers.com {
+	reverse_proxy 127.0.0.1:3017
+}
+
 flags.maplefurnishers.com {
 	reverse_proxy 127.0.0.1:8080
 }
