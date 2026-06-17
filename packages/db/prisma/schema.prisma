@@ -257,6 +257,15 @@ model Task {
   updatedAt   DateTime  @updatedAt
 }
 
+model Doc {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  tagline   String?
+  body      String   @default("")
+  updatedAt DateTime @updatedAt
+}
+
 model User {
   id           String   @id @default(cuid())
   name         String

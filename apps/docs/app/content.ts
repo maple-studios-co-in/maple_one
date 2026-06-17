@@ -152,3 +152,8 @@ export const GUIDES: Guide[] = [
     ],
   },
 ];
+
+export function guideToHtml(g: Guide): string {
+  const steps = g.steps.map((st, i) => `<li>${st.text}</li>`).join("");
+  return `<p>${g.intro}</p><ol>${steps}</ol>`;
+}
