@@ -70,7 +70,7 @@ users.maplefurnishers.com {
 	reverse_proxy users:3000
 }
 
-# Feature-flag console (Flipt). PROTECT THIS — add basic_auth or restrict by IP.
+# Public docs site.
 docs.maplefurnishers.com {
 	reverse_proxy docs:3000
 }
@@ -79,6 +79,12 @@ tasks.maplefurnishers.com {
 	reverse_proxy tasks:3000
 }
 
+# Feature-flag console (Flipt) — protected by basic auth.
+# Set FLAGS_PASSWORD_HASH in .env (user is "maple"). Rotate with:
+#   docker run --rm caddy:2 caddy hash-password --plaintext 'NEWPASS'
 flags.maplefurnishers.com {
+	basic_auth {
+		maple {env.FLAGS_PASSWORD_HASH}
+	}
 	reverse_proxy flipt:8080
 }

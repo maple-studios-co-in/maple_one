@@ -2,9 +2,13 @@ name: Deploy staging
 on:
   push:
     branches: [staging]
+  workflow_dispatch: {}
 concurrency: staging
 jobs:
   deploy:
+    # Gated OFF until a real staging box + *.stg.maplefurnishers.com exist.
+    # Enable by setting repo/Environment variable STAGING_ENABLED=true (Settings > Variables).
+    if: ${{ vars.STAGING_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     environment: staging            # set DEPLOY_HOST/USER/SSH_KEY under GitHub > Environments > staging
     steps:
