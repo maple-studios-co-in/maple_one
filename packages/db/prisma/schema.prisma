@@ -286,6 +286,31 @@ model Doc {
   @@unique([tenantId, slug])
 }
 
+model SitePage {
+  id        String      @id @default(cuid())
+  tenantId  String?
+  slug      String
+  title     String
+  published Boolean     @default(true)
+  order     Int         @default(0)
+  blocks    SiteBlock[]
+  updatedAt DateTime    @updatedAt
+  @@unique([tenantId, slug])
+}
+
+model SiteBlock {
+  id        String   @id @default(cuid())
+  tenantId  String?
+  pageId    String
+  page      SitePage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  type      String
+  label     String
+  enabled   Boolean  @default(true)
+  order     Int      @default(0)
+  data      Json     @default("{}")
+  updatedAt DateTime @updatedAt
+}
+
 model User {
   id           String   @id @default(cuid())
   tenantId  String?
