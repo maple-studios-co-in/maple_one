@@ -9,13 +9,15 @@
     "build": "turbo run build",
     "db:generate": "npm run -w @maple/db generate",
     "lint": "turbo run lint",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "shots": "node scripts/screenshots.mjs"
   },
   "overrides": {
     "postcss": "^8.5.10"
   },
   "devDependencies": {
-    "turbo": "^2.3.3"
+    "turbo": "^2.3.3",
+    "playwright": "^1.49.0"
   },
   "packageManager": "npm@10.9.8"
 }
