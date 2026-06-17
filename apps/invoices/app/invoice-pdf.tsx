@@ -42,13 +42,13 @@ const s = StyleSheet.create({
   footer: { position: "absolute", bottom: 24, left: 38, right: 38, textAlign: "center", fontSize: 7, color: "#999", borderTop: 1, borderTopColor: "#eee", paddingTop: 6 },
 });
 
-export function InvoicePdf({ data, totals }: { data: InvoiceData; totals: InvoiceTotals }) {
+export function InvoicePdf({ data, totals, logo }: { data: InvoiceData; totals: InvoiceTotals; logo?: string }) {
   return (
     <Document>
       <Page size="A4" style={s.page}>
         <View style={s.header}>
           <View style={{ flexDirection: "row", gap: 10 }}>
-            {MAPLE_LOGO_B64 ? <Image src={MAPLE_LOGO_B64} style={s.logo} /> : null}
+            {(logo || MAPLE_LOGO_B64) ? <Image src={logo || MAPLE_LOGO_B64} style={s.logo} /> : null}
             <View>
               <Text style={s.brand}>MAPLE FURNISHERS</Text>
               <Text style={{ fontSize: 8, color: "#7d6e63" }}>Luxury furniture, factory prices</Text>

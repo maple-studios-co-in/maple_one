@@ -228,6 +228,7 @@ model Tenant {
   brandName    String   @default("MapleOne")
   logoUrl      String?
   primaryColor String?
+  watermarkEnabled Boolean @default(false)
   active       Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

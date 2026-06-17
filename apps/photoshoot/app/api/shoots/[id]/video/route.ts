@@ -5,6 +5,8 @@ import { pipeline } from "node:stream/promises";
 import { prisma } from "@maple/core/lib/prisma";
 import { shootDir, shootVideoPath, ensureDir } from "@maple/core/lib/storage";
 import { makePoster } from "@maple/core/lib/poster";
+import { currentTenant } from "@maple/core/lib/brand";
+import { watermarkVideo } from "@maple/core/lib/watermark";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -15,6 +17,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   if (!req.body) return NextResponse.json({ error: "No file" }, { status: 400 });
   ensureDir(shootDir(id));
   await pipeline(Readable.fromWeb(req.body as Parameters<typeof Readable.fromWeb>[0]), fs.createWriteStream(shootVideoPath(id)));
-  await makePoster(id);
+  const _t = await currentTenant();
+    if (_t?.watermarkEnabled && _t.logoUrl) await watermarkVideo(shootVideoPath(id), _t.logoUrl);
+    await makePoster(id);
   return NextResponse.json(await prisma.shoot.update({ where: { id }, data: { hasVideo: true, status: "ready" } }));
 }

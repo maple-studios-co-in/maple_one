@@ -34,7 +34,8 @@ export default function InvoicesPage() {
   const download = async () => {
     setDownloading(true);
     try {
-      const blob = await pdf(<InvoicePdf data={data} totals={totals} />).toBlob();
+      const logo = await fetch("/api/brand").then((r) => r.json()).then((b) => b.logoUrl as string | undefined).catch(() => undefined);
+      const blob = await pdf(<InvoicePdf data={data} totals={totals} logo={logo} />).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url; a.download = `${data.number || "invoice"}.pdf`; a.click();

@@ -155,7 +155,7 @@ const WatermarkedImage = ({ src }: { src?: string }) => (
   </View>
 );
 
-export function MasterProposalPdf({ data, computed, terms }: { data: QuoteData; computed: TotalsResult; terms: string[] }) {
+export function MasterProposalPdf({ data, computed, terms, logo }: { data: QuoteData; computed: TotalsResult; terms: string[]; logo?: string }) {
   const { client, quote, rooms } = data;
   const { totals } = computed;
 
@@ -164,7 +164,7 @@ export function MasterProposalPdf({ data, computed, terms }: { data: QuoteData; 
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <View>
-            <Image src={MAPLE_LOGO_B64} style={styles.logo} />
+            <Image src={logo || MAPLE_LOGO_B64} style={styles.logo} />
           </View>
           <View style={{ alignItems: "flex-end", maxWidth: 300 }}>
             <Text style={styles.companyName}>MAPLE FURNISHERS</Text>

@@ -29,3 +29,14 @@ export async function getBrand(): Promise<Brand> {
     return DEFAULT;
   }
 }
+
+/** The full tenant row for the current host (for admin writes). */
+export async function currentTenant() {
+  const host = (await headers()).get("host") || "";
+  const domain = registrable(host);
+  return (
+    (await prisma.tenant.findFirst({ where: { domain } })) ||
+    (await prisma.tenant.findFirst({ where: { slug: "maple" } })) ||
+    (await prisma.tenant.findFirst())
+  );
+}

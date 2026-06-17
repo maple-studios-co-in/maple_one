@@ -234,7 +234,8 @@ export default function QuotationBuilderPage() {
 
   async function onGeneratePdf() {
     toast("Generating PDF…");
-    const blob = await pdf(<MasterProposalPdf data={data} computed={computed} terms={terms} />).toBlob();
+    const logo = await fetch("/api/brand").then((r) => r.json()).then((b) => b.logoUrl as string | undefined).catch(() => undefined);
+    const blob = await pdf(<MasterProposalPdf data={data} computed={computed} terms={terms} logo={logo} />).toBlob();
     window.open(URL.createObjectURL(blob), "_blank");
   }
 

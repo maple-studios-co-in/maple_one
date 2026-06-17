@@ -22,7 +22,8 @@ export default function HrPage() {
   const download = async () => {
     setBusy(true);
     try {
-      const blob = await pdf(<HrDocPdf type={type} fields={f} />).toBlob();
+      const logo = await fetch("/api/brand").then((r) => r.json()).then((b) => b.logoUrl as string | undefined).catch(() => undefined);
+      const blob = await pdf(<HrDocPdf type={type} fields={f} logo={logo} />).toBlob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url; a.download = `${HR_DOC_LABELS[type].replace(/\s+/g, "-")}-${(f.employeeName || "doc").replace(/\s+/g, "-")}.pdf`; a.click();

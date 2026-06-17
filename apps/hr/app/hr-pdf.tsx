@@ -27,7 +27,7 @@ const s = StyleSheet.create({
   footer: { position: "absolute", bottom: 28, left: 50, right: 50, textAlign: "center", fontSize: 7, color: "#999", borderTop: 1, borderTopColor: "#eee", paddingTop: 6 },
 });
 
-export function HrDocPdf({ type, fields }: { type: HrDocType; fields: HrFields }) {
+export function HrDocPdf({ type, fields, logo }: { type: HrDocType; fields: HrFields; logo?: string }) {
   const body = hrBody(type, fields);
   const issue = fields.issueDate ? new Date(fields.issueDate).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "";
   return (
@@ -35,7 +35,7 @@ export function HrDocPdf({ type, fields }: { type: HrDocType; fields: HrFields }
       <Page size="A4" style={s.page}>
         <View style={s.header}>
           <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
-            {MAPLE_LOGO_B64 ? <Image src={MAPLE_LOGO_B64} style={s.logo} /> : null}
+            {(logo || MAPLE_LOGO_B64) ? <Image src={logo || MAPLE_LOGO_B64} style={s.logo} /> : null}
             <Text style={s.brand}>MAPLE FURNISHERS</Text>
           </View>
           <Text style={s.contact}>B-3, W.H.S. Timber Market{"\n"}Kirti Nagar, Delhi-110015{"\n"}contact@maplefurnishers.com</Text>
