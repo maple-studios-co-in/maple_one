@@ -12,14 +12,23 @@
     "dev": "turbo run dev",
     "shots": "node scripts/screenshots.mjs",
     "dev:local": "bash scripts/dev.sh",
-    "stop": "bash scripts/stop.sh"
+    "stop": "bash scripts/stop.sh",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test"
   },
   "overrides": {
     "postcss": "^8.5.10"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@vitejs/plugin-react": "^4.7.0",
+    "jsdom": "^25.0.1",
+    "playwright": "^1.49.0",
     "turbo": "^2.3.3",
-    "playwright": "^1.49.0"
+    "vitest": "^2.1.9"
   },
   "packageManager": "npm@10.9.8"
 }
