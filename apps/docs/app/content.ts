@@ -4,7 +4,7 @@ export type Guide = { slug: string; title: string; tool?: string; tagline: strin
 export const GUIDES: Guide[] = [
   {
     slug: "getting-started", title: "Getting started", tagline: "Sign in once, use every tool.",
-    intro: "MapleTools is one workspace split across subdomains. You sign in at admin.maplefurnishers.com and that login carries to every tool. What you can see and do depends on your role.",
+    intro: "MapleOne is one workspace split across subdomains. You sign in at admin.maplefurnishers.com and that login carries to every tool. What you can see and do depends on your role.",
     steps: [
       { text: "Go to admin.maplefurnishers.com and sign in with your email and password.", shot: "login" },
       { text: "The launcher shows every tool you have access to. Click one to open it.", shot: "launcher" },

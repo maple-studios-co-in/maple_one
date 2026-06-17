@@ -39,7 +39,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
         <div className="mb-6 text-center">
-          <div className="font-serif text-3xl text-primary">Maple<span className="text-foreground">Tools</span></div>
+          <div className="font-serif text-3xl text-primary">MapleOne</div>
           <p className="mt-1 text-sm text-muted-foreground">Sign in to the team workspace</p>
         </div>
         <Card className="p-6">

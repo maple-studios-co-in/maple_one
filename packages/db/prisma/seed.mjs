@@ -2,6 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
+await prisma.tenant.upsert({
+  where: { slug: "maple" },
+  update: { name: "Maple Furnishers", brandName: "MapleOne", domain: "maplefurnishers.com" },
+  create: { slug: "maple", name: "Maple Furnishers", brandName: "MapleOne", domain: "maplefurnishers.com" },
+});
+console.log("seeded tenant MapleOne");
+
 const T = (...names) => names.map((n) => `tool:${n}`);
 const roles = [
   { name: "admin", label: "Administrator", permissions: ["*"], isSystem: true },

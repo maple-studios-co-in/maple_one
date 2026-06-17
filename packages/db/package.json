@@ -10,7 +10,7 @@
     "migrate": "prisma migrate deploy",
     "seed": "node prisma/seed.mjs",
     "postinstall": "prisma generate",
-    "push": "prisma db push --skip-generate"
+    "push": "prisma db push"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

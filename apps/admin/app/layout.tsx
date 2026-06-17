@@ -5,7 +5,7 @@ import { Toaster } from "sonner";
 
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"] });
 const instrument = Instrument_Serif({ variable: "--font-instrument", weight: "400", subsets: ["latin"] });
-export const metadata: Metadata = { title: "MapleTools" };
+export const metadata: Metadata = { title: "MapleOne" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

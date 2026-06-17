@@ -7,14 +7,14 @@ import { cn } from "../lib/cn";
 import { Avatar } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
 
-export function SuiteShell({ user, current, children }: { user: SessionUser; current: string; children: React.ReactNode }) {
+export function SuiteShell({ user, current, brand, children }: { user: SessionUser; current: string; brand?: { name: string; logoUrl?: string | null }; children: React.ReactNode }) {
   const items = TOOLS.filter((t) => canAccessTool(user.perms, t.tool, user.role));
   const logout = async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.href = adminUrl("/login"); };
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <aside className="flex w-60 shrink-0 flex-col border-r border-border bg-sidebar">
         <a href={adminUrl()} className="px-5 py-5">
-          <div className="font-serif text-2xl text-primary">Maple<span className="text-foreground">Tools</span></div>
+          {brand?.logoUrl ? <img src={brand.logoUrl} alt={brand.name} className="h-7 w-auto" /> : <div className="font-serif text-2xl text-primary">{brand?.name ?? "MapleOne"}</div>}
           <div className="mt-0.5 text-[11px] text-muted-foreground">Maple Furnishers · Kirti Nagar</div>
         </a>
         <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-3">

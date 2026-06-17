@@ -6,21 +6,23 @@ import { redirect } from "next/navigation";
 import { getSession } from "@maple/core/lib/auth";
 import { adminUrl } from "@maple/core/lib/nav";
 import { SuiteShell } from "@maple/core/components/SuiteShell";
+import { getBrand } from "@maple/core/lib/brand";
 import { ToolDisabled } from "@maple/core/components/ToolDisabled";
 import { isEnabled } from "@maple/core/lib/flags";
 
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"] });
 const instrument = Instrument_Serif({ variable: "--font-instrument", weight: "400", subsets: ["latin"] });
-export const metadata: Metadata = { title: "Clients · MapleTools" };
+export const metadata: Metadata = { title: "Clients · MapleOne" };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const user = await getSession();
+  const brand = await getBrand();
   if (!user) redirect(adminUrl("/login"));
   const toolOn = await isEnabled(`tool.crm`);
   return (
     <html lang="en" className={`${outfit.variable} ${instrument.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full">
-        {toolOn ? (<SuiteShell user={user} current="crm">{children}</SuiteShell>) : (<ToolDisabled label="Crm" />)}
+        {toolOn ? (<SuiteShell user={user} brand={brand} current="crm">{children}</SuiteShell>) : (<ToolDisabled label="Crm" />)}
         <Toaster position="top-right" richColors />
       </body>
     </html>
