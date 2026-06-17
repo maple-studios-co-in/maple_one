@@ -1,13 +1,13 @@
 import { GUIDES } from "../content";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { prisma } from "@maple/core/lib/prisma";
+import { tenantDb } from "@maple/core/lib/tenant-db";
 export const dynamic = "force-dynamic";
 
 export default async function GuidePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const guide = GUIDES.find((x) => x.slug === slug);
-  const doc = await prisma.doc.findUnique({ where: { slug } }).catch(() => null);
+  const doc = await (await tenantDb()).doc.findFirst({ where: { slug } }).catch(() => null);
   if (!guide && !doc) notFound();
   const title = doc?.title || guide!.title;
   const tagline = doc?.tagline || guide?.tagline;

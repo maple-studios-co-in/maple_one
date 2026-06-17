@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "node:fs";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
-import { prisma } from "@maple/core/lib/prisma";
+import { tenantDb } from "@maple/core/lib/tenant-db";
 import { collectionDir, pdfPath, pagesDir, ensureDir } from "@maple/core/lib/storage";
 import { renderCollectionPdf } from "@maple/core/lib/pdf-render";
 
@@ -12,7 +12,7 @@ export const maxDuration = 300;
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const exists = await prisma.collection.findUnique({ where: { id } });
+  const exists = await (await tenantDb()).collection.findUnique({ where: { id } });
   if (!exists) return NextResponse.json({ error: "Not found" }, { status: 404 });
   if (!req.body) return NextResponse.json({ error: "No file" }, { status: 400 });
 
@@ -24,7 +24,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
   try {
     const count = await renderCollectionPdf(id, pdfPath(id));
-    const updated = await prisma.collection.update({ where: { id }, data: { hasPdf: true, pageCount: count } });
+    const updated = await (await tenantDb()).collection.update({ where: { id }, data: { hasPdf: true, pageCount: count } });
     return NextResponse.json(updated);
   } catch (e) {
     console.error("pdf render failed", e);

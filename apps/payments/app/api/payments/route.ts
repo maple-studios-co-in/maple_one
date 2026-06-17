@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@maple/core/lib/prisma";
+import { tenantDb } from "@maple/core/lib/tenant-db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const payments = await prisma.payment.findMany({
+    const payments = await (await tenantDb()).payment.findMany({
       orderBy: { createdAt: "desc" },
       include: { client: { select: { name: true } }, invoice: { select: { number: true } } },
     });
@@ -15,7 +15,7 @@ export async function GET() {
 }
 export async function POST(req: Request) {
   const b = await req.json();
-  const payment = await prisma.payment.create({
+  const payment = await (await tenantDb()).payment.create({
     data: {
       clientId: b.clientId || null, invoiceId: b.invoiceId || null, label: b.label || null,
       amount: Number(b.amount || 0), method: b.method || null,

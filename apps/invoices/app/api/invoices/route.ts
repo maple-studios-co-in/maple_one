@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@maple/core/lib/prisma";
+import { tenantDb } from "@maple/core/lib/tenant-db";
 import { findOrCreateClient } from "@maple/core/lib/clientLink";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    return NextResponse.json(await prisma.invoice.findMany({ orderBy: { createdAt: "desc" }, include: { client: { select: { name: true } } } }));
+    return NextResponse.json(await (await tenantDb()).invoice.findMany({ orderBy: { createdAt: "desc" }, include: { client: { select: { name: true } } } }));
   } catch {
     return NextResponse.json({ error: "Database not reachable. Set DATABASE_URL and run prisma migrate." }, { status: 503 });
   }
@@ -16,15 +16,15 @@ export async function POST(req: Request) {
   try {
     const clientId = await findOrCreateClient(b.client || {});
     const due = b.dueDate ? new Date(b.dueDate) : null;
-    const inv = await prisma.invoice.upsert({
+    const inv = await (await tenantDb()).invoice.upsert({
       where: { number: b.number },
       create: { number: b.number, total: Number(b.total || 0), status: b.status || "unpaid", dueDate: due, data: b.data, clientId },
       update: { total: Number(b.total || 0), status: b.status || "unpaid", dueDate: due, data: b.data, clientId },
     });
     // ensure a payment row exists for this invoice (so it appears in Payments)
-    const hasPay = await prisma.payment.findFirst({ where: { invoiceId: inv.id } });
+    const hasPay = await (await tenantDb()).payment.findFirst({ where: { invoiceId: inv.id } });
     if (!hasPay && inv.total > 0) {
-      await prisma.payment.create({ data: { invoiceId: inv.id, clientId, label: `Invoice ${inv.number}`, amount: inv.total, dueDate: due, status: "due" } });
+      await (await tenantDb()).payment.create({ data: { invoiceId: inv.id, clientId, label: `Invoice ${inv.number}`, amount: inv.total, dueDate: due, status: "due" } });
     }
     return NextResponse.json(inv);
   } catch {

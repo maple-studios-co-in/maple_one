@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@maple/core/lib/prisma";
+import { tenantDb } from "@maple/core/lib/tenant-db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const clients = await prisma.client.findMany({
+    const clients = await (await tenantDb()).client.findMany({
       orderBy: { updatedAt: "desc" },
       include: { _count: { select: { leads: true, orders: true, invoices: true, quotations: true } } },
     });
@@ -15,7 +15,7 @@ export async function GET() {
 }
 export async function POST(req: Request) {
   const b = await req.json();
-  const client = await prisma.client.create({
+  const client = await (await tenantDb()).client.create({
     data: {
       name: b.name, company: b.company || null, type: b.type || "b2c", gstin: b.gstin || null,
       phone: b.phone || null, email: b.email || null, address: b.address || null,
