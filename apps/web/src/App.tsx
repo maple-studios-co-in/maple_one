@@ -1,20 +1,15 @@
 import { useEffect } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Preloader from './components/Preloader'
-import Hero from './components/Hero'
 import SiteChrome from './components/SiteChrome'
 import Canvas3D from './experience/Canvas3D'
-import Anatomy from './sections/Anatomy'
-import Collection from './sections/Collection'
-import Ethos from './sections/Ethos'
-import Craft from './sections/Craft'
-import Materials from './sections/Materials'
-import Process from './sections/Process'
-import Sofa from './sections/Sofa'
-import Table from './sections/Table'
-import Visit from './sections/Visit'
+import Page from './pages/Page'
+import { useSiteConfig } from './site/useSiteConfig'
 import { initSmoothScroll, ScrollTrigger } from './lib/scroll'
 
 function App() {
+  const { config, loading } = useSiteConfig()
+
   useEffect(() => {
     initSmoothScroll()
     const onLoad = () => ScrollTrigger.refresh()
@@ -23,23 +18,19 @@ function App() {
   }, [])
 
   return (
-    <>
+    <BrowserRouter>
       <Preloader />
       <Canvas3D />
       <SiteChrome />
-      <main id="top" className="relative z-10 min-h-screen">
-        <Hero />
-        <Ethos />
-        <Craft />
-        <Anatomy />
-        <Materials />
-        <Collection />
-        <Sofa />
-        <Table />
-        <Process />
-        <Visit />
-      </main>
-    </>
+      {/* Render once the config has resolved (fast, timeout-bounded) so sections
+          mount a single time with their final content — the preloader covers it. */}
+      {!loading && (
+        <Routes>
+          <Route path="/" element={<Page config={config} />} />
+          <Route path="/:slug" element={<Page config={config} />} />
+        </Routes>
+      )}
+    </BrowserRouter>
   )
 }
 

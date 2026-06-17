@@ -2,6 +2,8 @@ import { useGSAP } from '@gsap/react'
 import { useRef } from 'react'
 import { useExperience } from '../experience/store'
 import { gsap } from '../lib/scroll'
+import type { BlockProps } from '../site/types'
+import { str } from '../site/types'
 
 const PIECES = [
   {
@@ -24,7 +26,7 @@ const PIECES = [
   },
 ] as const
 
-export default function Collection() {
+export default function Collection({ data }: BlockProps) {
   const section = useRef<HTMLElement>(null)
 
   useGSAP(
@@ -95,10 +97,10 @@ export default function Collection() {
       <div className="relative mx-auto flex h-full max-w-[1536px] flex-col px-6 py-16 md:px-12">
         <div className="max-w-xl">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.24em] text-warmGrey">
-            The collection
+            {str(data, 'heading') ?? 'The collection'}
           </p>
           <h2 className="font-display text-5xl font-normal leading-[1.04] tracking-[-0.03em] text-charcoal md:text-6xl">
-            Three pieces, endless rooms.
+            {str(data, 'body') ?? 'Three pieces, endless rooms.'}
           </h2>
         </div>
 

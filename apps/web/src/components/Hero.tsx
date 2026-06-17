@@ -1,17 +1,21 @@
 import { useGSAP } from '@gsap/react'
 import { useRef } from 'react'
 import { gsap, prefersReducedMotion, SplitText } from '../lib/scroll'
-import { REVEAL_EVENT } from './Preloader'
+import { REVEAL_EVENT, hasRevealed } from '../lib/reveal'
 import BottomLeftCard from './BottomLeftCard'
 import BottomRightCorner from './BottomRightCorner'
 import HeroBadge from './HeroBadge'
 import Navbar from './Navbar'
 import WebGLVeil from './WebGLVeil'
+import type { BlockProps } from '../site/types'
+import { str } from '../site/types'
 
 const heroVideo =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260428_193507_4286c423-2fd9-4efd-92bd-91a939453fc1.mp4'
 
-export default function Hero() {
+export default function Hero({ data }: BlockProps) {
+  const headingText = str(data, 'heading')
+  const bodyText = str(data, 'body')
   const wrapper = useRef<HTMLDivElement>(null)
   const card = useRef<HTMLElement>(null)
   const heading = useRef<HTMLHeadingElement>(null)
@@ -44,7 +48,10 @@ export default function Hero() {
           .to(sub.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 0.45)
           .to('[data-scroll-cue]', { opacity: 1, duration: 0.6 }, 0.9)
       }
-      window.addEventListener(REVEAL_EVENT, play, { once: true })
+      // The preloader may have already lifted before this section mounted
+      // (e.g. a slow config fetch). Play immediately if so, else wait for it.
+      if (hasRevealed()) play()
+      else window.addEventListener(REVEAL_EVENT, play, { once: true })
 
       // --- scroll exit: card recedes as S2 takes over ---
       gsap
@@ -104,15 +111,19 @@ export default function Hero() {
               ref={heading}
               className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[108px] font-normal text-charcoal mb-2 tracking-[-0.04em] leading-[1.02] opacity-0"
             >
-              Luxury Custom-Built
-              <br className="hidden sm:block" /> Interiors
+              {headingText ?? (
+                <>
+                  Luxury Custom-Built
+                  <br className="hidden sm:block" /> Interiors
+                </>
+              )}
             </h1>
             <p
               ref={sub}
               className="text-sm sm:text-base md:text-lg text-deepBrown/75 leading-relaxed max-w-xl font-normal opacity-0"
             >
-              Elegance is not found. At Maple, it is custom-built through refined furniture,
-              material-led detailing, and project-ready craftsmanship from Kirti Nagar.
+              {bodyText ??
+                'Elegance is not found. At Maple, it is custom-built through refined furniture, material-led detailing, and project-ready craftsmanship from Kirti Nagar.'}
             </p>
           </div>
           <div

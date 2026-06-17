@@ -1,8 +1,7 @@
 import { useGSAP } from '@gsap/react'
 import { useRef, useState } from 'react'
 import { gsap, prefersReducedMotion } from '../lib/scroll'
-
-export const REVEAL_EVENT = 'maple:reveal'
+import { fireReveal } from '../lib/reveal'
 
 export default function Preloader() {
   const [done, setDone] = useState(false)
@@ -11,7 +10,7 @@ export default function Preloader() {
   useGSAP(() => {
     if (prefersReducedMotion()) {
       setDone(true)
-      window.dispatchEvent(new Event(REVEAL_EVENT))
+      fireReveal()
       return
     }
 
@@ -21,7 +20,7 @@ export default function Preloader() {
       onComplete: () => {
         document.documentElement.style.overflow = ''
         setDone(true)
-        window.dispatchEvent(new Event(REVEAL_EVENT))
+        fireReveal()
       },
     })
 
