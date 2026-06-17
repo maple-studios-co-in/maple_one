@@ -3,6 +3,8 @@ import { ArrowUpRight } from 'lucide-react'
 import { motion, useMotionValue, useSpring } from 'motion/react'
 import { useRef } from 'react'
 import { gsap, prefersReducedMotion } from '../lib/scroll'
+import type { BlockProps } from '../site/types'
+import { str } from '../site/types'
 
 function MagneticCTA() {
   const x = useMotionValue(0)
@@ -33,7 +35,7 @@ function MagneticCTA() {
   )
 }
 
-export default function Visit() {
+export default function Visit({ data }: BlockProps) {
   const section = useRef<HTMLElement>(null)
 
   useGSAP(
@@ -77,11 +79,11 @@ export default function Visit() {
           data-visit-line
           className="mb-6 max-w-3xl font-display text-5xl font-normal leading-[1.04] tracking-[-0.03em] md:text-8xl"
         >
-          Begin your build.
+          {str(data, 'heading') ?? 'Begin your build.'}
         </h2>
         <p data-visit-line className="mb-12 max-w-lg text-base leading-7 text-ivory/70">
-          Walk the workshop, touch the timber, sit in the prototypes. Bring a floor plan or just
-          an idea — leave with a design.
+          {str(data, 'body') ??
+            'Walk the workshop, touch the timber, sit in the prototypes. Bring a floor plan or just an idea — leave with a design.'}
         </p>
         <div data-visit-line>
           <MagneticCTA />

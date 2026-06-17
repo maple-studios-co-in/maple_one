@@ -2,6 +2,8 @@ import { useGSAP } from '@gsap/react'
 import { useRef } from 'react'
 import MaterialTexture from '../components/MaterialTexture'
 import { gsap, prefersReducedMotion, ScrollTrigger } from '../lib/scroll'
+import type { BlockProps } from '../site/types'
+import { str } from '../site/types'
 
 const STEPS = [
   {
@@ -31,7 +33,7 @@ const STATS = [
   { value: 20, suffix: '+', label: 'Cities served' },
 ] as const
 
-export default function Process() {
+export default function Process({ data }: BlockProps) {
   const section = useRef<HTMLElement>(null)
   const feature = useRef<HTMLVideoElement>(null)
 
@@ -116,7 +118,7 @@ export default function Process() {
           From sketch to install
         </p>
         <h2 className="mb-12 max-w-2xl font-display text-5xl font-normal leading-[1.04] tracking-[-0.03em] text-charcoal md:text-6xl">
-          A process you can sit on.
+          {str(data, 'heading') ?? 'A process you can sit on.'}
         </h2>
 
         <div
