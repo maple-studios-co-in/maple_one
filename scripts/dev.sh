@@ -19,7 +19,7 @@ if command -v docker >/dev/null && ! docker ps --format '{{.Names}}' | grep -qx 
 fi
 
 say "Dependencies"
-[ -x node_modules/.bin/next ] || npm install
+npm install
 
 say "Database (push + seed)"
 DATABASE_URL="$DB" npm run -w @maple/db push --silent
