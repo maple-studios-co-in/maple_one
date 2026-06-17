@@ -18,8 +18,10 @@ services:
 
   web:
     image: maple-suite:latest
+    env_file: .env
     environment: { APP: web }
-    command: sh -c "npm run -w @maple/app-web preview -- --port 3000 --host 0.0.0.0"
+    # Production static server (SPA fallback for the client-side routes).
+    command: sh -c "serve -s apps/web/dist -l 3000"
     restart: unless-stopped
 
   admin:
@@ -159,6 +161,7 @@ services:
 
   caddy:
     image: caddy:2
+    env_file: .env          # provides FLAGS_PASSWORD_HASH for the flags console basic_auth
     ports: ["80:80", "443:443"]
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
