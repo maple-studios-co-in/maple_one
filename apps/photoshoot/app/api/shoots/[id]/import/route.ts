@@ -13,6 +13,7 @@ export const maxDuration = 300;
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  if (!(await (await tenantDb()).shoot.findFirst({ where: { id } }))) return NextResponse.json({ error: "Not found in tenant" }, { status: 404 });
   if (!(await (await tenantDb()).shoot.findUnique({ where: { id } }))) return NextResponse.json({ error: "Not found" }, { status: 404 });
   const { url } = await req.json();
   if (!/^https?:\/\//i.test(url || "")) return NextResponse.json({ error: "Provide an http(s) video URL." }, { status: 400 });

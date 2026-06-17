@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  if (!(await (await tenantDb()).shoot.findFirst({ where: { id } }))) return NextResponse.json({ error: "Not found in tenant" }, { status: 404 });
   const b = await req.json();
   const data: Record<string, unknown> = {};
   for (const k of ["title", "product", "colorway", "style", "published", "status"]) if (b[k] !== undefined) data[k] = b[k];
@@ -12,6 +13,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 }
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  if (!(await (await tenantDb()).shoot.findFirst({ where: { id } }))) return NextResponse.json({ error: "Not found in tenant" }, { status: 404 });
   await (await tenantDb()).shoot.delete({ where: { id } });
   rmShoot(id);
   return NextResponse.json({ ok: true });

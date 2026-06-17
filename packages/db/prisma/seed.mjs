@@ -46,6 +46,32 @@ for (const u of users) {
   console.log("seeded user", u.email, `(${u.role})`);
 }
 
+// site CMS: landing page + blocks
+const home = await prisma.sitePage.upsert({
+  where: { tenantId_slug: { tenantId: tenant.id, slug: "home" } },
+  update: {},
+  create: { tenantId: tenant.id, slug: "home", title: "Home", order: 0 },
+});
+if ((await prisma.siteBlock.count({ where: { pageId: home.id } })) === 0) {
+  const blocks = [
+    ["hero", "Hero", { heading: "Maple Furnishers", body: "Bespoke furniture, crafted in Kirti Nagar." }],
+    ["ethos", "Ethos", { heading: "Built to last a lifetime", body: "Restraint, honest materials, and craftsmanship." }],
+    ["craft", "Craft", {}],
+    ["materials", "Materials", {}],
+    ["process", "Process", { heading: "A process you can sit on." }],
+    ["anatomy", "Anatomy", { heading: "Apart, then whole" }],
+    ["sofa", "Sofa showcase", {}],
+    ["table", "Table showcase", {}],
+    ["collection", "Collection", { heading: "The collection" }],
+    ["visit", "Visit", { heading: "Visit the studio", body: "B-3, W.H.S. Timber Market, Kirti Nagar, Delhi-110015" }],
+  ];
+  let i = 0;
+  for (const [type, label, data] of blocks) {
+    await prisma.siteBlock.create({ data: { tenantId: tenant.id, pageId: home.id, type, label, order: i++, data } });
+  }
+  console.log("seeded site blocks", blocks.length);
+}
+
 // backfill any pre-isolation rows to the default tenant
 const models = ["client","lead","quotation","invoice","payment","order","inventoryItem","financeEntry","hrDocument","product","collection","shoot","purchaseOrder","deliveryChallan","expense","task","doc"];
 for (const m of models) {

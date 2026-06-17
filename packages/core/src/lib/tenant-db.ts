@@ -5,7 +5,7 @@ import { getTenantId } from "./tenant";
 const SCOPED = new Set([
   "Client","Lead","Quotation","Invoice","Payment","Order","InventoryItem","FinanceEntry",
   "HrDocument","Product","Collection","Shoot","PurchaseOrder","DeliveryChallan","Expense",
-  "Task","Doc","User","Role",
+  "Task","Doc","User","Role","SitePage","SiteBlock",
 ]);
 
 /** A Prisma client bound to the current request's tenant. findMany/findFirst/count are
