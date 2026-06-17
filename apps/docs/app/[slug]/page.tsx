@@ -11,6 +11,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   if (!guide && !doc) notFound();
   const title = doc?.title || guide!.title;
   const tagline = doc?.tagline || guide?.tagline;
+  const html = doc?.body || guide?.body;
   return (
     <article className="mx-auto max-w-3xl p-8 md:p-12">
       <div className="flex items-start justify-between gap-4">
@@ -20,13 +21,13 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         </div>
         <Link href={`/${slug}/edit`} className="shrink-0 rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground hover:bg-accent">Edit</Link>
       </div>
-      {doc ? (
-        <div className="prose-doc mt-6 text-foreground/90" dangerouslySetInnerHTML={{ __html: doc.body }} />
-      ) : (
+      {html ? (
+        <div className="prose-doc mt-6 text-foreground/90" dangerouslySetInnerHTML={{ __html: html }} />
+      ) : guide ? (
         <>
-          <p className="mt-3 text-muted-foreground">{guide!.intro}</p>
+          <p className="mt-3 text-muted-foreground">{guide.intro}</p>
           <ol className="mt-8 space-y-8">
-            {guide!.steps.map((s, i) => (
+            {guide.steps.map((s, i) => (
               <li key={i}>
                 <div className="flex gap-3">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">{i + 1}</span>
@@ -41,7 +42,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             ))}
           </ol>
         </>
-      )}
+      ) : null}
     </article>
   );
 }

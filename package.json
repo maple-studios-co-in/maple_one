@@ -10,7 +10,9 @@
     "db:generate": "npm run -w @maple/db generate",
     "lint": "turbo run lint",
     "dev": "turbo run dev",
-    "shots": "node scripts/screenshots.mjs"
+    "shots": "node scripts/screenshots.mjs",
+    "dev:local": "bash scripts/dev.sh",
+    "stop": "bash scripts/stop.sh"
   },
   "overrides": {
     "postcss": "^8.5.10"

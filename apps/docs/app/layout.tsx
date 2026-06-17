@@ -18,7 +18,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-sidebar p-5 md:flex">
             <Link href="/"><div className="font-serif text-2xl text-primary">{brand.name}</div><div className="text-[11px] text-muted-foreground">Team documentation</div></Link>
             <nav className="mt-6 space-y-0.5 overflow-y-auto">
-              {GUIDES.map((g) => (
+              <div className="px-3 pb-1 pt-2 text-[10px] font-bold uppercase tracking-wide text-muted-foreground/60">Using the tools</div>
+              {GUIDES.filter((g) => g.section !== "dev").map((g) => (
+                <Link key={g.slug} href={`/${g.slug}`} className="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground">{g.title}</Link>
+              ))}
+              <div className="px-3 pb-1 pt-4 text-[10px] font-bold uppercase tracking-wide text-muted-foreground/60">For developers</div>
+              {GUIDES.filter((g) => g.section === "dev").map((g) => (
                 <Link key={g.slug} href={`/${g.slug}`} className="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground">{g.title}</Link>
               ))}
             </nav>
