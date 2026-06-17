@@ -16,4 +16,14 @@ export default [
       globals: globals.browser,
     },
   },
+  {
+    files: ['**/*.{ts,tsx}'],
+    rules: {
+      // The marketing site is imperative R3F/three.js (mutating materials in useFrame,
+      // short-circuit assignments). These rules are false positives here.
+      'react-hooks/immutability': 'off',
+      'react-hooks/set-state-in-effect': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
+    },
+  },
 ]
