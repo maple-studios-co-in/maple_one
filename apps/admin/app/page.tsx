@@ -19,7 +19,7 @@ export default async function Launcher() {
           <h1 className="font-serif text-4xl text-foreground">Welcome back, {user.name.split(" ")[0]}.</h1>
           <p className="mt-1 text-muted-foreground">Your Maple Furnishers workspace.</p>
         </div>
-        <div className="flex items-center gap-4">{(user.perms.includes("*") || can(user.perms, "manage_roles")) && <Link href="/branding" className="text-sm text-muted-foreground hover:text-foreground">Branding</Link>}<form action="/api/auth/logout" method="post"><button className="text-sm text-muted-foreground hover:text-foreground">Sign out</button></form></div>
+        <div className="flex items-center gap-4">{(user.perms.includes("*") || can(user.perms, "manage_roles")) && (<><Link href="/branding" className="text-sm text-muted-foreground hover:text-foreground">Branding</Link><Link href="/website" className="text-sm text-muted-foreground hover:text-foreground">Website</Link></>)}<form action="/api/auth/logout" method="post"><button className="text-sm text-muted-foreground hover:text-foreground">Sign out</button></form></div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((t) => (
